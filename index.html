@@ -9,20 +9,35 @@
     <link rel='stylesheet' type='text/css' media='screen' href='styles.css'>
 </head>
 <body>
-    <div class="container">
-        <div class="row mb-3 mt-3 justify-content-md-center">
-            <div id="user-name"></div>
-            <button id="call" class="btn btn-primary col-1">Call!</button>
-            <button id="hangup" class="col-1" class="btn btn-primary">Hangup</button>
-            <div id="answer" class="col"></div>
-        </div>
-        <div id="videos">
-            <div id="video-wrapper">
-                <div id="waiting" class="btn btn-warning">Waiting for answer...</div>
-                <video class="video-player" id="local-video" autoplay playsinline controls></video>
+    <div class="app-shell">
+        <header class="topbar">
+            <div class="identity-pill">
+                <span class="label">You</span>
+                <strong id="user-name">Guest</strong>
             </div>
-            <video class="video-player" id="remote-video" autoplay playsinline controls></video>
-        </div>
+
+            <div class="controls">
+                <button id="call" class="action-button primary">Call</button>
+                <button id="hangup" class="action-button secondary">Hangup</button>
+            </div>
+
+            <div id="answer" class="incoming-calls" aria-live="polite"></div>
+        </header>
+
+        <main id="videos" class="video-grid">
+            <section class="video-card local-card">
+                <div class="video-title">Local camera</div>
+                <div id="video-wrapper" class="video-stage">
+                    <div id="waiting" class="waiting-badge">Waiting for answer...</div>
+                    <video class="video-player" id="local-video" autoplay playsinline></video>
+                </div>
+            </section>
+
+            <section class="video-card remote-card">
+                <div class="video-title">Remote video</div>
+                <video class="video-player" id="remote-video" autoplay playsinline></video>
+            </section>
+        </main>
     </div>
 </body>
 <script src="/socket.io/socket.io.js"></script>
