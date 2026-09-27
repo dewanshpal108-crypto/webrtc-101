@@ -1,40 +1,49 @@
 
-//on connection get all available offers and call createOfferEls
-socket.on('availableOffers',offers=>{
-    console.log(offers)
-    createOfferEls(offers)
-})
+socket.on(
+    'newOffer',
+    async (offerObj) => {
 
-//someone just made a new offer and we're already here - call createOfferEls
-socket.on('newOfferAwaiting',offers=>{
-    createOfferEls(offers)
-})
+        console.log(
+            'New offer received:',
+            offerObj
+        );
 
-socket.on('answerResponse',offerObj=>{
-    console.log(offerObj)
-    addAnswer(offerObj)
-})
 
-socket.on('receivedIceCandidateFromServer',iceCandidate=>{
-    addNewIceCandidate(iceCandidate)
-    console.log(iceCandidate)
-})
+        // Answer automatically
+        await answerOffer(
+            offerObj
+        );
+    }
+);
 
-function createOfferEls(offers){
-    const answerEl = document.querySelector('#answer');
+socket.on(
+    'answerResponse',
+    async (offerObj) => {
 
-    offers.forEach(o=>{
-        console.log(o);
+        console.log(
+            'Answer received:',
+            offerObj
+        );
 
-        const newOfferEl = document.createElement('div');
-        newOfferEl.className = 'incoming-call-item';
 
-        const answerButton = document.createElement('button');
-        answerButton.type = 'button';
-        answerButton.textContent = `Answer ${o.offererUserName}`;
-        answerButton.addEventListener('click', () => answerOffer(o));
+        await addAnswer(
+            offerObj
+        );
+    }
+);
 
-        newOfferEl.appendChild(answerButton);
-        answerEl.appendChild(newOfferEl);
-    })
-}
+socket.on(
+    'receivedIceCandidateFromServer',
+    (iceCandidate) => {
+
+        console.log(
+            'Received ICE candidate:',
+            iceCandidate
+        );
+
+
+        addNewIceCandidate(
+            iceCandidate
+        );
+    }
+);
