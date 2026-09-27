@@ -1,23 +1,13 @@
-const https = require('https');
-const fs = require('fs');
+const http = require('http');
 const path = require('path');
 const express = require('express');
-const app = express();
-
 const socketio = require('socket.io');
+
+const app = express();
 
 app.use(express.static(__dirname));
 
-const key = fs.readFileSync('cert.key');
-const cert = fs.readFileSync('cert.crt');
-
-const server = https.createServer(
-    {
-        key: key,
-        cert: cert,
-    },
-    app,
-);
+const server = http.createServer(app);
 
 const io = socketio(server, {
     cors: {
@@ -30,8 +20,8 @@ app.get('/call/:callId', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-server.listen(8181, () => {
-    console.log('Server is running on port 8181');
+server.listen(process.env.PORT || 8181, () => {
+    console.log(`Server is running on port ${process.env.PORT || 8181}`);
 });
 
 const calls = new Map();
