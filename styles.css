@@ -204,19 +204,55 @@ video {
 
 @media (max-width: 768px) {
     .app-shell {
-        padding: 12px 12px 20px;
+        margin: 12px auto;
+        padding: 8px 10px 16px;
     }
 
     .topbar {
         border-radius: 18px;
-        padding: 16px;
+        padding: 12px;
     }
 
     .video-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .video-card {
+        min-width: 0;
+        padding: 8px;
+        border-radius: 16px;
+    }
+
+    .video-title {
+        margin-bottom: 8px;
     }
 
     .video-player {
-        height: 280px;
+        height: clamp(110px, 34vw, 220px);
+        border-radius: 14px;
+    }
+}
+
+@media (max-width: 380px) {
+    .app-shell {
+        padding-right: 6px;
+        padding-left: 6px;
+    }
+
+    .video-grid {
+        gap: 6px;
+    }
+
+    .video-card {
+        padding: 6px;
+    }
+
+    .video-title {
+        font-size: 0.62rem;
+    }
+
+    .video-player {
+        height: 110px;
     }
 }
